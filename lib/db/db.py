@@ -40,12 +40,12 @@ def field(command, *values):
 def record(command, *values):
   cur.execute(command, tuple(values))
 
-  return fetchone()
+  return cur.fetchone()
 
 def records(command, *values):
   cur.execute(command, tuple(values))
 
-  return fetchone()
+  return cur.fetchall()
 
 def column(command, *values):
   cur.execute(command, tuple(values))
