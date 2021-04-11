@@ -111,7 +111,6 @@ class Bot(BotBase):
 
     elif isinstance(exc, CommandOnCooldown):
       await ctx.send(f"Aún no puedes usar ese comando, espera **{exc.retry_after // 3600:02.0f}:{(exc.retry_after // 60) % 60:02.0f}:{exc.retry_after % 60:02.0f}** para usarlo de nuevo.")
-      print(exc.retry_after)
 
     elif hasattr(exc, "original"):
       raise exc

@@ -39,10 +39,7 @@ class Trivia(Cog):
 
     await channel.send(pregunta[0])
     
-    def check(m):
-      return m.channel == channel
-    
-    message = await self.bot.wait_for('message', check=check)
+    message = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
 
     if message.content.lower() == pregunta[1]:
       answer = '¡Correcto!'
