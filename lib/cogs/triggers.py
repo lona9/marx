@@ -13,7 +13,7 @@ class Members(Cog):
       msg = message.content
 
       if 'engels' in msg.lower():
-        autoengels = ["¿Alguien me buscaba?", "Creí oir a alguien decir mi nombre...", "¿Yo?", "¿Por qué hablan de mí sin incluirme?"]
+        autoengels = ["¿Alguien me buscaba?", "Creí oir a alguien decir mi nombre...", "¿Yo?", "¿Por qué hablan de mí sin incluirme?", "¿Hola?"]
         await message.channel.send(random.choice(autoengels))
 
   @Cog.listener()
