@@ -23,6 +23,8 @@ class Trivia(Cog):
     if new_lvl > lvl:
       await self.levelup_channel.send(f"Felicidades **{message.author.mention}** - llegaste al nivel **{new_lvl:,}**!")
 
+    await message.channel.send(f"¡Correcto! Ganaste **{xp_to_add:,}** vacas.")
+
   @command()
   @cooldown(3, 86400, BucketType.user)
   async def trivia(self, ctx): 
@@ -42,12 +44,11 @@ class Trivia(Cog):
     message = await self.bot.wait_for('message', check=lambda message: message.author == ctx.author)
 
     if message.content.lower() == pregunta[1]:
-      answer = '¡Correcto!'
       await self.process_xp(message)
     else:
-      answer = 'Incorrecto.'
+      await channel.send('Incorrecto.')
       
-    await channel.send(answer)
+    
 
   @Cog.listener()
   async def on_ready(self):
