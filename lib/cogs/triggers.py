@@ -15,6 +15,9 @@ class Members(Cog):
       if 'engels' in msg.lower():
         autoengels = ["¿Alguien me buscaba?", "Creí oir a alguien decir mi nombre...", "¿Yo?", "¿Por qué hablan de mí sin incluirme?", "¿Hola?"]
         await message.channel.send(random.choice(autoengels))
+        
+      if 'marx' in msg.lower():
+        await message.channel.send(":heart:")
 
   @Cog.listener()
   async def on_ready(self):
