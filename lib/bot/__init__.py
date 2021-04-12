@@ -120,7 +120,7 @@ class Bot(BotBase):
 
   async def on_ready(self):
     if not self.ready:
-      self.guild = self.get_guild(804445063597129809)
+      self.guild = self.get_guild(716064319938494545)
       self.engelslog = self.get_channel(829158453297676368)
       channel = self.engelslog
       self.scheduler.start()
