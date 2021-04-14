@@ -46,6 +46,7 @@ class Exp(Cog):
   async def process_xp(self, message):
     if message.channel == self.bot.get_channel(829049490203475979) or message.channel == self.bot.get_channel(804445064029798431):
       pass
+      
     else:
       xp, lvl, xplock = db.record("SELECT XP, Level, XPLock FROM exp WHERE UserID = ?", message.author.id)
       
