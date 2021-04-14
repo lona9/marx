@@ -48,7 +48,6 @@ class Trivia(Cog):
     else:
       await channel.send('Incorrecto.')
       
-    
 
   @Cog.listener()
   async def on_ready(self):

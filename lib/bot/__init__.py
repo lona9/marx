@@ -1,5 +1,4 @@
 import discord
-from keep_alive import keep_alive
 from asyncio import sleep
 from discord import Intents
 from datetime import datetime
@@ -9,6 +8,7 @@ from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import Context
 from discord.ext.commands import CommandNotFound, CommandOnCooldown
+
 from ..db import db
 
 PREFIX = '+'
@@ -123,6 +123,7 @@ class Bot(BotBase):
       self.guild = self.get_guild(716064319938494545)
       self.engelslog = self.get_channel(829158453297676368)
       channel = self.engelslog
+      
       self.scheduler.start()
 
       self.update_db()
@@ -142,9 +143,4 @@ class Bot(BotBase):
     if not message.author.bot:
       await self.process_commands(message)
 
-keep_alive()
-
 bot = Bot()
-
-
-
