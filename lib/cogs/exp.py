@@ -34,9 +34,9 @@ class RankMenu(ListPageSource):
     fields = []
     table = ("\n".join(f"{idx+offset}. {self.ctx.bot.guild.get_member(entry[0]).display_name} (Vacas: {entry[1]} | Nivel: {entry[2]})"
 				for idx, entry in enumerate(entries)))
-        
+
     fields.append(("Puestos", table))
-    
+
     return await self.write_page(menu, offset, fields)
 
 class Exp(Cog):
@@ -44,20 +44,24 @@ class Exp(Cog):
     self.bot = bot
 
   async def process_xp(self, message):
-    if message.channel == self.bot.get_channel(829049490203475979) or message.channel == self.bot.get_channel(804445064029798431):
+    if message.channel == self.bot.get_channel(800131110989463592):  #canal pruebot
       pass
-      
+
     else:
       xp, lvl, xplock = db.record("SELECT XP, Level, XPLock FROM exp WHERE UserID = ?", message.author.id)
-      
+
       if datetime.utcnow() > datetime.fromisoformat(xplock):
         await self.add_xp(message, xp, lvl)
 
   async def add_xp(self, message, xp, lvl):
-    xp_to_add = randint(10, 20)
-    new_lvl = int(((xp+xp_to_add)//42) ** 0.55)
-    
-    db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ? WHERE UserID = ?", xp_to_add, new_lvl, (datetime.utcnow()+timedelta(seconds=1)).isoformat(), message.author.id)
+    if message.channel == self.bot.get_channel(832444793229541466) or message.channel == self.bot.get_channel(832444851227983872) or message.channel == self.bot.get_channel(832444904998830090) or message.channel == self.bot.get_channel(832444934992560159):
+      xp_to_add = randint(20, 30)
+      new_lvl = int(((xp+xp_to_add)//42) ** 0.55)
+    else:
+      xp_to_add = randint(10, 20)
+      new_lvl = int(((xp+xp_to_add)//42) ** 0.55)
+
+    db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ? WHERE UserID = ?", xp_to_add, new_lvl, (datetime.utcnow()+timedelta(seconds=20)).isoformat(), message.author.id)
 
     revienta = get(message.author.guild.roles, name="revienta asambleas")
     delegade = get(message.author.guild.roles, name="delegade de curso")
@@ -65,96 +69,108 @@ class Exp(Cog):
     joven = get(message.author.guild.roles, name="joven sindicalista")
     encargadeb = get(message.author.guild.roles, name="encargade de bases")
     encargadep = get(message.author.guild.roles, name="encargade político")
-    
+
     if new_lvl > lvl:
       await self.levelup_channel.send(f"Felicidades **{message.author.mention}** - llegaste al nivel **{new_lvl:,}**!")
-    
-    # if new_lvl == 0 or new_lvl == 1:
-    #   await message.author.add_roles(revienta)
-    # if new_lvl == 2:
-    #   await message.author.add_roles(delegade)
-    #   try:
-    #     await message.author.remove_roles(revienta)
-    #   except:
-    #     pass
-    # if new_lvl == 5:
-    #   await message.author.add_roles(militante)
-    #   try:
-    #     await message.author.remove_roles(delegade)
-    #   except:
-    #     pass
-    # if new_lvl == 8:
-    #   await message.author.add_roles(joven)
-    #   try:
-    #     await message.author.remove_roles(militante)
-    #   except:
-    #     pass
-    # if new_lvl == 11:
-    #   await message.author.add_roles(encargadeb)
-    #   try:
-    #     await message.author.remove_roles(joven)
-    #   except:
-    #     pass
-    # if new_lvl == 15:
-    #   await message.author.add_roles(encargadep)
-    #   try:
-    #     await message.author.remove_roles(encargadeb)
-    #   except:
-    #     pass
+
+    if new_lvl == 0 or new_lvl == 1:
+      await message.author.add_roles(revienta)
+    if new_lvl == 2:
+      await message.author.add_roles(delegade)
+      try:
+        await message.author.remove_roles(revienta)
+      except:
+        pass
+    if new_lvl == 5:
+      await message.author.add_roles(militante)
+      try:
+        await message.author.remove_roles(delegade)
+      except:
+        pass
+    if new_lvl == 8:
+      await message.author.add_roles(joven)
+      try:
+        await message.author.remove_roles(militante)
+      except:
+        pass
+    if new_lvl == 11:
+      await message.author.add_roles(encargadeb)
+      try:
+        await message.author.remove_roles(joven)
+      except:
+        pass
+    if new_lvl == 15:
+      await message.author.add_roles(encargadep)
+      try:
+        await message.author.remove_roles(encargadeb)
+      except:
+        pass
 
   @command(name="nivel", aliases=["lvl", "nvl"])
   async def nivel(self, ctx, target: Optional[Member]):
-    target = target or ctx.author
-
-    xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", target.id) or (None, None)
-    if lvl is not None:
-      self.ctx = ctx
-    
-      embed = Embed(colour=0xFF0000)
-
-      fields = [(f"Nivel de {target.display_name}", f"**{target.display_name}** está en **nivel {lvl:,}** con {xp:,} vacas.", False)]
-
-      for name, value, inline in fields:
-        embed.add_field(name=name, value=value, inline=inline)
-
-      embed.set_author(name='engels', icon_url=self.ctx.guild.icon_url)
-
-      await ctx.channel.send(embed=embed)
+    if not (ctx.channel == self.bot.get_channel(832686629906415626) or ctx.channel == self.bot.get_channel(800131110989463592)):
+        await ctx.channel.send("Mis comandos solo se pueden utilizar en el canal de <#832686629906415626>.")
 
     else:
-      await ctx.send("Ese usuarie no existe en el sistema de experiencia.")
+        target = target or ctx.author
+
+        xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", target.id) or (None, None)
+        if lvl is not None:
+          self.ctx = ctx
+
+          embed = Embed(colour=0xFF0000)
+
+          fields = [(f"Nivel de {target.display_name}", f"**{target.display_name}** está en **nivel {lvl:,}** con {xp:,} vacas.", False)]
+
+          for name, value, inline in fields:
+            embed.add_field(name=name, value=value, inline=inline)
+
+          embed.set_author(name='engels', icon_url=self.ctx.guild.icon_url)
+
+          await ctx.channel.send(embed=embed)
+
+        else:
+          await ctx.send("Ese usuarie no existe en el sistema de experiencia.")
 
   @command(name="puesto", aliases=["lugar"])
   async def puesto(self, ctx, target: Optional[Member]):
-    target = target or ctx.author
+    if not (ctx.channel == self.bot.get_channel(832686629906415626) or ctx.channel == self.bot.get_channel(800131110989463592)):
+        await ctx.channel.send("Mis comandos solo se pueden utilizar en el canal de <#832686629906415626>.")
 
-    ids = db.column("SELECT UserID FROM exp ORDER BY XP DESC")
+    else:
+        target = target or ctx.author
 
-    try:
-      self.ctx = ctx
-    
-      embed = Embed(colour=0xFF0000)
+        ids = db.column("SELECT UserID FROM exp ORDER BY XP DESC")
 
-      fields = [(f"Puesto de {target.display_name}", f"**{target.display_name}** está en el puesto **{ids.index(target.id)+1}** de {len(ids)} compañeres.", False)]
+        try:
+          self.ctx = ctx
 
-      for name, value, inline in fields:
-        embed.add_field(name=name, value=value, inline=inline)
+          embed = Embed(colour=0xFF0000)
 
-      embed.set_author(name='engels', icon_url=self.ctx.guild.icon_url)
+          fields = [(f"Puesto de {target.display_name}", f"**{target.display_name}** está en el puesto **{ids.index(target.id)+1}** de {len(ids)} compañeres.", False)]
 
-      await ctx.channel.send(embed=embed)
-    
-    except ValueError: 
-      await ctx.send("Ese usuarie no existe en el sistema de experiencia.")
+          for name, value, inline in fields:
+            embed.add_field(name=name, value=value, inline=inline)
+
+          embed.set_author(name='engels', icon_url=self.ctx.guild.icon_url)
+
+          await ctx.channel.send(embed=embed)
+
+        except ValueError:
+          await ctx.send("Ese usuarie no existe en el sistema de experiencia.")
 
   @command(name="leaderboard", aliases=["lb", "ranking", "top"])
   async def rank(self, ctx):
-    records = db.records("SELECT UserID, XP, Level FROM exp ORDER BY XP DESC")
+    if not (ctx.channel == self.bot.get_channel(832686629906415626) or ctx.channel == self.bot.get_channel(800131110989463592)):
+        await ctx.channel.send("Mis comandos solo se pueden utilizar en el canal de <#832686629906415626>.")
 
-    menu = MenuPages(source=RankMenu(ctx, records),
-                    clear_reactions_after=True,
-                    timeout=60.0)
-    await menu.start(ctx)
+    else:
+        records = db.records("SELECT UserID, XP, Level FROM exp ORDER BY XP DESC")
+
+        menu = MenuPages(source=RankMenu(ctx, records),
+                        clear_reactions_after=True,
+                        timeout=60.0)
+        await menu.start(ctx)
 
   @Cog.listener()
   async def on_ready(self):
