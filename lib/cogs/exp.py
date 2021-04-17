@@ -75,31 +75,31 @@ class Exp(Cog):
 
     if new_lvl == 0 or new_lvl == 1:
       await message.author.add_roles(revienta)
-    if new_lvl == 2:
+    if new_lvl == 6:
       await message.author.add_roles(delegade)
       try:
         await message.author.remove_roles(revienta)
       except:
         pass
-    if new_lvl == 5:
+    if new_lvl == 11:
       await message.author.add_roles(militante)
       try:
         await message.author.remove_roles(delegade)
       except:
         pass
-    if new_lvl == 8:
+    if new_lvl == 16:
       await message.author.add_roles(joven)
       try:
         await message.author.remove_roles(militante)
       except:
         pass
-    if new_lvl == 11:
+    if new_lvl == 21:
       await message.author.add_roles(encargadeb)
       try:
         await message.author.remove_roles(joven)
       except:
         pass
-    if new_lvl == 15:
+    if new_lvl == 26:
       await message.author.add_roles(encargadep)
       try:
         await message.author.remove_roles(encargadeb)
