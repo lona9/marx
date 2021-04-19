@@ -44,7 +44,7 @@ class Exp(Cog):
     self.bot = bot
 
   async def process_xp(self, message):
-    if message.channel == self.bot.get_channel(800131110989463592) or message.channel == self.bot.get_channel(804445064029798431):  #canal pruebot y emoji
+    if message.channel == self.bot.get_channel(800131110989463592) or message.channel == self.bot.get_channel(804445064029798431) or message.author.id == 485054727755792410:  #canal pruebot y emoji
       pass
 
     else:
@@ -55,7 +55,7 @@ class Exp(Cog):
 
   async def add_xp(self, message, xp, lvl):
     if message.channel == self.bot.get_channel(832444793229541466) or message.channel == self.bot.get_channel(832444851227983872) or message.channel == self.bot.get_channel(832444904998830090) or message.channel == self.bot.get_channel(832444934992560159):
-      xp_to_add = randint(20, 30)
+      xp_to_add = randint(15, 25)
       new_lvl = int(((xp+xp_to_add)//42) ** 0.55)
     else:
       xp_to_add = randint(10, 20)
