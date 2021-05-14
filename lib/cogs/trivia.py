@@ -61,7 +61,7 @@ class Trivia(Cog):
         await channel.send("**¡Escribe solo la letra de la alternativa correcta!**" + "\n\n" + pregunta[0])
 
         try:
-            message = await self.bot.wait_for('message', timeout = 30.0, check=lambda message: message.author == ctx.author)
+            message = await self.bot.wait_for('message', timeout = 45.0, check=lambda message: message.author == ctx.author)
         except:
             await channel.send("¡Se acabó el tiempo!")
         else:
