@@ -15,7 +15,7 @@ PREFIX = '+'
 
 OWNER_IDS = [485054727755792410]
 
-COGS = ["meta", "exp", "members", "ayuda", "triggers", "trivia"]
+COGS = ["meta", "exp", "members", "ayuda", "triggers", "trivia", "votacion"]
 
 class Ready(object):
   def __init__(self):
@@ -44,7 +44,7 @@ class Bot(BotBase):
     db.autosave(self.scheduler)
 
     super().__init__(
-      command_prefix=PREFIX, 
+      command_prefix=PREFIX,
       owner_ids=OWNER_IDS,
       intents=Intents.all()
       )
@@ -54,21 +54,21 @@ class Bot(BotBase):
       self.load_extension(f"lib.cogs.{cog}")
       print(f" {cog} cog loaded")
 
-    print("setup complete") 
+    print("setup complete")
 
   def update_db(self):
     db.multiexec("INSERT OR IGNORE INTO exp (UserID) VALUES (?)",
 					 ((member.id,) for member in self.guild.members if not member.bot))
-           
+
     to_remove = []
     stored_members = db.column("SELECT UserID FROM exp")
     for id_ in stored_members:
       if not self.guild.get_member(id_):
         to_remove.append(id_)
-        
+
     db.multiexec("DELETE FROM exp WHERE UserID = ?",
 					 ((id_,) for id_ in to_remove))
-           
+
     db.commit()
 
   def run(self, version):
@@ -89,7 +89,7 @@ class Bot(BotBase):
     if ctx.command is not None:
       if self.ready:
         await self.invoke(ctx)
-    
+
       else:
         await ctx.send("Aún no estoy listo para recibir comandos, por favor espera unos segundos.")
 
@@ -123,7 +123,7 @@ class Bot(BotBase):
       self.guild = self.get_guild(716064319938494545)
       self.engelslog = self.get_channel(829158453297676368)
       channel = self.engelslog
-      
+
       self.scheduler.start()
 
       self.update_db()
@@ -139,7 +139,7 @@ class Bot(BotBase):
       print("bot reconnected")
 
   async def on_message(self, message):
-      
+
     if not message.author.bot:
       await self.process_commands(message)
 
