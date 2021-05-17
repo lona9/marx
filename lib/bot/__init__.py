@@ -15,7 +15,7 @@ PREFIX = '+'
 
 OWNER_IDS = [485054727755792410]
 
-COGS = ["meta", "exp", "members", "ayuda", "triggers", "trivia", "votacion"]
+COGS = ["meta", "exp", "members", "ayuda", "triggers", "trivia"]
 
 class Ready(object):
   def __init__(self):
