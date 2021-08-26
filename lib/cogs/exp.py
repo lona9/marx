@@ -44,7 +44,7 @@ class Exp(Cog):
     self.bot = bot
 
   async def process_xp(self, message):
-    if message.channel == self.bot.get_channel(800131110989463592) or message.channel == self.bot.get_channel(804445064029798431):  #canal pruebot y emoji
+    if message.channel == self.bot.get_channel(800131110989463592) or message.channel == self.bot.get_channel(804445064029798431) or message.channel == self.bot.get_channel(827220123299086447):  #canal pruebot y emoji
       pass
 
     else:
